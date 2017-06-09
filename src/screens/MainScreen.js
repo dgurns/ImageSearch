@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions';
+import Search from '../components/Search';
 
 class MainScreen extends Component {
   static navigationOptions = {
@@ -19,7 +20,9 @@ class MainScreen extends Component {
 
   render() {
     return (
-      <View />
+      <ScrollView>
+        <Search />
+      </ScrollView>
     );
   }
 }

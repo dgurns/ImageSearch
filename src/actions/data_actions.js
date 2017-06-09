@@ -50,3 +50,10 @@ export const getImageResults = (searchTerm, page) => async dispatch => {
     });
   }
 };
+
+export const selectCurrentImage = (imageObject) => {
+  return {
+    type: types.CURRENT_IMAGE_SELECTED,
+    payload: imageObject
+  };
+};

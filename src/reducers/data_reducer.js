@@ -2,6 +2,7 @@ import * as types from '../actions/types';
 
 const INITIAL_STATE = {
   currentSearchTerm: '',
+  currentImage: {},
   imageResultsLoading: false,
   imageResults: [],
   totalApiResults: 0,
@@ -35,6 +36,11 @@ export default function (state = INITIAL_STATE, action) {
         imageResults: [],
         totalApiResults: 0,
         errorMessage: ''
+      };
+    case types.CURRENT_IMAGE_SELECTED:
+      return {
+        ...state,
+        currentImage: action.payload
       };
     default:
       return state;

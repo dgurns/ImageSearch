@@ -32,6 +32,11 @@ class MainScreen extends Component {
     this.setDeviceDimensions();
   }
 
+  onImagePressed = (imageObject) => {
+    this.props.selectCurrentImage(imageObject);
+    this.props.navigation.navigate('detail');
+  }
+
   getMoreImageResults = () => {
     const currentImages = this.props.imageResults.length;
     console.log(currentImages);
@@ -62,7 +67,7 @@ class MainScreen extends Component {
     return (
       <TouchableOpacity
         style={styles.imageContainer}
-        onPress={() => this.props.navigation.navigate('detail')}
+        onPress={() => this.onImagePressed(rowData)}
         activeOpacity={0.9}
       >
         <Image
@@ -140,7 +145,6 @@ const styles = StyleSheet.create({
 function mapStateToProps({ device, data }) {
   return {
     screenWidth: device.screenWidth,
-    screenHeight: device.screenHeight,
     contentWidth: device.contentWidth,
     currentSearchTerm: data.currentSearchTerm,
     imageResults: data.imageResults,

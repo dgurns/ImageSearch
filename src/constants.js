@@ -1,9 +1,12 @@
+// Layout
+export const MAX_WIDTH = 400;
+
 // Colors
 export const WHITE_COLOR = '#FFF';
 export const BLUE_COLOR = '#56AFD7';
-export const GRAY_COLOR = '#AAA';
+export const GRAY_COLOR = '#A9A9A9';
 
-// Font sizes
+// Fonts
 export const TITLE_FONT_SIZE = 26;
 export const BODY_FONT_SIZE = 18;
 

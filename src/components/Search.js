@@ -23,9 +23,11 @@ class Search extends Component {
         'Oops',
         'Please enter a search term'
       );
+      return;
     }
 
-    this.props.getImageResults(this.state.searchTerm, this.props.resultsPages + 1);
+    this.props.clearImageResults();
+    this.props.getImageResults(this.state.searchTerm, 1);
   }
 
   render() {
@@ -53,8 +55,8 @@ class Search extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 10
+    marginTop: 10,
+    height: 135
   },
   textInput: {
     padding: 15,
@@ -74,7 +76,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps({ data }) {
   return {
-    resultsPages: data.resultsPages
+    totalApiResults: data.totalApiResults,
+    imageResults: data.imageResults
   };
 }
 

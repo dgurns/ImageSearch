@@ -22,7 +22,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         imageResultsLoading: false,
-        imageResults: [...state.imageResults, action.payload.imageResults],
+        imageResults: state.imageResults.concat(action.payload.imageResults),
         totalApiResults: action.payload.totalApiResults
       };
     case types.IMAGE_RESULTS_CLEARED:

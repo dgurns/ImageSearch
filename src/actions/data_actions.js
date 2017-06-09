@@ -14,7 +14,8 @@ export const clearImageResults = () => {
 
 export const getImageResults = (searchTerm, page) => async dispatch => {
   dispatch({
-    type: types.IMAGE_RESULTS_REQUESTED
+    type: types.IMAGE_RESULTS_REQUESTED,
+    payload: searchTerm
   });
 
   const queryParams = {
@@ -44,12 +45,8 @@ export const getImageResults = (searchTerm, page) => async dispatch => {
     console.log(error);
 
     dispatch({
-      type: types.IMAGE_RESULTS_FAILED
+      type: types.IMAGE_RESULTS_FAILED,
+      payload: 'No more images!'
     });
-
-    Alert.alert(
-      'Oops',
-      'Could not fetch images. Please try another search.'
-    );
   }
 };

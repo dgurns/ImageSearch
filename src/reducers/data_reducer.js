@@ -1,9 +1,11 @@
 import * as types from '../actions/types';
 
 const INITIAL_STATE = {
+  currentSearchTerm: '',
   imageResultsLoading: false,
   imageResults: [],
-  totalApiResults: 0
+  totalApiResults: 0,
+  errorMessage: ''
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -11,12 +13,14 @@ export default function (state = INITIAL_STATE, action) {
     case types.IMAGE_RESULTS_REQUESTED:
       return {
         ...state,
-        imageResultsLoading: true
+        imageResultsLoading: true,
+        currentSearchTerm: action.payload
       };
     case types.IMAGE_RESULTS_FAILED:
       return {
         ...state,
-        imageResultsLoading: false
+        imageResultsLoading: false,
+        errorMessage: action.payload
       };
     case types.IMAGE_RESULTS_SUCCESSFUL:
       return {
@@ -29,7 +33,8 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         imageResults: [],
-        totalApiResults: 0
+        totalApiResults: 0,
+        errorMessage: ''
       };
     default:
       return state;

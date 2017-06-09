@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {
   View,
   ListView,
-  ScrollView,
+  Text,
   StyleSheet,
   Image,
+  TouchableOpacity,
   ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -31,6 +32,16 @@ class MainScreen extends Component {
     this.setDeviceDimensions();
   }
 
+  getMoreImageResults = () => {
+    const currentImages = this.props.imageResults.length;
+    console.log(currentImages);
+
+    if (currentImages > 0) {
+      const resultsPage = Math.round(currentImages / constants.RESULTS_PER_PAGE) + 1;
+      this.props.getImageResults(this.props.currentSearchTerm, resultsPage);
+    }
+  }
+
   setDeviceDimensions = () => {
     this.props.setDeviceDimensions();
   }
@@ -48,57 +59,71 @@ class MainScreen extends Component {
     const height = width / aspectRatio;
 
     return (
-      <View style={styles.imageContainer}>
+      <TouchableOpacity
+        style={styles.imageContainer}
+        onPress={() => this.props.navigation.navigate('detail')}
+        activeOpacity={0.9}
+      >
         <Image
           style={{ width, height }}
           key={rowData.id}
           source={{ uri: rowData.webformatURL }}
           resizeMode="cover"
         />
-      </View>
+      </TouchableOpacity>
     );
   }
 
-  renderListView() {
-    if (this.props.imageResultsLoading) {
-      return (
+  renderListViewFooter = () => {
+    return (
+      <View>
+        <Text style={styles.errorMessage}>
+          {this.props.errorMessage}
+        </Text>
+
         <ActivityIndicator
           size="large"
-          style={{ marginTop: 20 }}
+          animating={this.props.imageResultsLoading}
         />
-      );
-    }
-
-    return (
-      <ListView
-        dataSource={this.ds.cloneWithRows(this.props.imageResults)}
-        renderRow={rowData => this.renderRow(rowData)}
-      />
+      </View>
     );
   }
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <View style={styles.container}>
         <View
           style={{ width: this.specifyWidth() }}
           onLayout={this.setDeviceDimensions}
         >
-          <Search />
-          {this.renderListView(this.props.imageResultsLoading)}
+          <ListView
+            contentContainerStyle={{ paddingBottom: 50 }}
+            dataSource={this.ds.cloneWithRows(this.props.imageResults)}
+            renderHeader={() => <Search />}
+            renderRow={rowData => this.renderRow(rowData)}
+            renderFooter={this.renderListViewFooter}
+            initialListSize={20}
+            onEndReached={this.getMoreImageResults}
+            onEndReachedThreshold={50}
+          />
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
+  container: {
     alignItems: 'center'
   },
   imageContainer: {
     marginBottom: 10,
     backgroundColor: constants.GRAY_COLOR
+  },
+  errorMessage: {
+    fontSize: constants.BODY_FONT_SIZE,
+    textAlign: 'center',
+    paddingTop: 20
   }
 });
 
@@ -106,8 +131,11 @@ function mapStateToProps({ device, data }) {
   return {
     screenWidth: device.screenWidth,
     screenHeight: device.screenHeight,
+    currentSearchTerm: data.currentSearchTerm,
     imageResults: data.imageResults,
-    imageResultsLoading: data.imageResultsLoading
+    imageResultsLoading: data.imageResultsLoading,
+    totalApiResults: data.totalApiResults,
+    errorMessage: data.errorMessage
   };
 }
 

@@ -42,6 +42,7 @@ class Search extends Component {
           placeholder="Enter a search term..."
           placeholderTextColor={constants.GRAY_COLOR}
           onChangeText={(text) => this.setState({ searchTerm: text })}
+          underlineColorAndroid={'transparent'}
         />
         <TouchableOpacity
           onPress={this.onSubmit}

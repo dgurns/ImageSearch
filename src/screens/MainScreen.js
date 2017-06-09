@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 import * as constants from '../constants';
+import * as helpers from '../helpers';
 
 import Search from '../components/Search';
 
@@ -39,7 +40,6 @@ class MainScreen extends Component {
 
   getMoreImageResults = () => {
     const currentImages = this.props.imageResults.length;
-    console.log(currentImages);
 
     if (currentImages > 0) {
       const resultsPage = Math.round(currentImages / constants.RESULTS_PER_PAGE) + 1;
@@ -49,14 +49,6 @@ class MainScreen extends Component {
 
   setDeviceDimensions = () => {
     this.props.setDeviceDimensions();
-  }
-
-  centerListView = () => {
-    const sidePadding = (this.props.screenWidth - this.props.contentWidth) / 2;
-
-    return (
-      { paddingLeft: sidePadding, paddingRight: sidePadding }
-    );
   }
 
   renderRow(rowData) {
@@ -104,14 +96,18 @@ class MainScreen extends Component {
   }
 
   render() {
+    const { screenWidth, contentWidth, imageResults } = this.props;
+
     return (
       <View
         style={styles.container}
         onLayout={this.setDeviceDimensions}
       >
         <ListView
-          contentContainerStyle={[styles.listView, this.centerListView()]}
-          dataSource={this.ds.cloneWithRows(this.props.imageResults)}
+          contentContainerStyle={[
+            styles.listView, helpers.centerContent(screenWidth, contentWidth)
+          ]}
+          dataSource={this.ds.cloneWithRows(imageResults)}
           renderHeader={this.renderListViewHeader}
           renderRow={rowData => this.renderRow(rowData)}
           renderFooter={this.renderListViewFooter}

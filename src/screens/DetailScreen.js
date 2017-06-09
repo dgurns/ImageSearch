@@ -9,19 +9,11 @@ import {
 import { connect } from 'react-redux';
 
 import * as constants from '../constants';
+import * as helpers from '../helpers';
 
 class DetailScreen extends Component {
-  centerContent = () => {
-    console.log(this.props.currentImage);
-    const sidePadding = (this.props.screenWidth - this.props.contentWidth) / 2;
-
-    return (
-      { paddingLeft: sidePadding, paddingRight: sidePadding }
-    );
-  }
-
   render() {
-    const { currentImage } = this.props;
+    const { currentImage, screenWidth, contentWidth } = this.props;
     const aspectRatio = currentImage.imageWidth / currentImage.imageHeight;
     const width = this.props.contentWidth;
     const height = width / aspectRatio;
@@ -30,7 +22,11 @@ class DetailScreen extends Component {
 
     return (
       <ScrollView contentContainerStyle={container}>
-        <View style={[contentContainer, this.centerContent()]}>
+        <View
+          style={[
+            contentContainer, helpers.centerContent(screenWidth, contentWidth)
+          ]}
+        >
           <Image
             style={[image, { width, height }]}
             key={currentImage.id}

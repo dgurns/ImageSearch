@@ -5,6 +5,10 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class MainScreen extends Component {
+  static navigationOptions = {
+    title: 'Image Search'
+  }
+
   componentWillMount() {
     this.setDeviceDimensions();
   }

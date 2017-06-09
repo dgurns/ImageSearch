@@ -34,12 +34,8 @@ class DetailScreen extends Component {
             resizeMode="cover"
           />
 
-          <Text style={text}>
-            {currentImage.user}
-          </Text>
-          <Text style={text}>
-            {currentImage.tags}
-          </Text>
+          <Text style={text}>{currentImage.user}</Text>
+          <Text style={text}>{currentImage.tags}</Text>
           <Text style={text}>
             {`${currentImage.webformatWidth} x ${currentImage.webformatHeight}`}
           </Text>

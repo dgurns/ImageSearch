@@ -2,7 +2,8 @@ import { DEVICE_DIMENSIONS_SET } from '../actions/types';
 
 const INITIAL_STATE = {
   screenWidth: 0,
-  screenHeight: 0
+  screenHeight: 0,
+  contentWidth: 0
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -11,7 +12,8 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         screenWidth: action.payload.screenWidth,
-        screenHeight: action.payload.screenHeight
+        screenHeight: action.payload.screenHeight,
+        contentWidth: action.payload.contentWidth
       };
     default:
       return state;

@@ -35,7 +35,7 @@ class Search extends Component {
 
     return (
       <View
-        style={container}
+        style={[container, { width: this.props.contentWidth }]}
       >
         <TextInput
           style={textInput}
@@ -74,8 +74,11 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps({ data }) {
+function mapStateToProps({ device, data }) {
   return {
+    screenWidth: device.screenWidth,
+    screenHeight: device.screenHeight,
+    contentWidth: device.contentWidth,
     totalApiResults: data.totalApiResults,
     imageResults: data.imageResults
   };

@@ -46,16 +46,17 @@ class MainScreen extends Component {
     this.props.setDeviceDimensions();
   }
 
-  specifyWidth = () => {
-    if (this.props.screenWidth > 500) {
-      return constants.MAX_WIDTH;
-    }
-    return this.props.screenWidth - 20;
+  centerListView = () => {
+    const sidePadding = (this.props.screenWidth - this.props.contentWidth) / 2;
+
+    return (
+      { paddingLeft: sidePadding, paddingRight: sidePadding }
+    );
   }
 
   renderRow(rowData) {
     const aspectRatio = rowData.imageWidth / rowData.imageHeight;
-    const width = this.specifyWidth();
+    const width = this.props.contentWidth;
     const height = width / aspectRatio;
 
     return (
@@ -71,6 +72,14 @@ class MainScreen extends Component {
           resizeMode="cover"
         />
       </TouchableOpacity>
+    );
+  }
+
+  renderListViewHeader = () => {
+    return (
+      <View>
+        <Search />
+      </View>
     );
   }
 
@@ -91,22 +100,20 @@ class MainScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View
-          style={{ width: this.specifyWidth() }}
-          onLayout={this.setDeviceDimensions}
-        >
-          <ListView
-            contentContainerStyle={{ paddingBottom: 50 }}
-            dataSource={this.ds.cloneWithRows(this.props.imageResults)}
-            renderHeader={() => <Search />}
-            renderRow={rowData => this.renderRow(rowData)}
-            renderFooter={this.renderListViewFooter}
-            initialListSize={20}
-            onEndReached={this.getMoreImageResults}
-            onEndReachedThreshold={50}
-          />
-        </View>
+      <View
+        style={styles.container}
+        onLayout={this.setDeviceDimensions}
+      >
+        <ListView
+          contentContainerStyle={[styles.listView, this.centerListView()]}
+          dataSource={this.ds.cloneWithRows(this.props.imageResults)}
+          renderHeader={this.renderListViewHeader}
+          renderRow={rowData => this.renderRow(rowData)}
+          renderFooter={this.renderListViewFooter}
+          initialListSize={20}
+          onEndReached={this.getMoreImageResults}
+          onEndReachedThreshold={50}
+        />
       </View>
     );
   }
@@ -115,6 +122,9 @@ class MainScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center'
+  },
+  listView: {
+    paddingBottom: 50
   },
   imageContainer: {
     marginBottom: 10,
@@ -131,6 +141,7 @@ function mapStateToProps({ device, data }) {
   return {
     screenWidth: device.screenWidth,
     screenHeight: device.screenHeight,
+    contentWidth: device.contentWidth,
     currentSearchTerm: data.currentSearchTerm,
     imageResults: data.imageResults,
     imageResultsLoading: data.imageResultsLoading,

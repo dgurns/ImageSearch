@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
-import { TabNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 
 import store from './store';
 

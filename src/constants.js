@@ -1,5 +1,6 @@
 // Layout
-export const MAX_WIDTH = 400;
+export const MEDIUM_WIDTH = 400;
+export const LARGE_WIDTH = 600;
 
 // Colors
 export const WHITE_COLOR = '#FFF';

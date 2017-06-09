@@ -2,7 +2,8 @@ import * as types from '../actions/types';
 
 const INITIAL_STATE = {
   imageResultsLoading: false,
-  imageResults: []
+  imageResults: [],
+  totalApiResults: 0
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -20,12 +21,15 @@ export default function (state = INITIAL_STATE, action) {
     case types.IMAGE_RESULTS_SUCCESSFUL:
       return {
         ...state,
-        imageResultsLoading: false
+        imageResultsLoading: false,
+        imageResults: [...state.imageResults, action.payload.imageResults],
+        totalApiResults: action.payload.totalApiResults
       };
     case types.IMAGE_RESULTS_CLEARED:
       return {
         ...state,
-        imageResults: []
+        imageResults: [],
+        totalApiResults: 0
       };
     default:
       return state;

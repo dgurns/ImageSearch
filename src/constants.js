@@ -9,3 +9,4 @@ export const BODY_FONT_SIZE = 18;
 
 // Data
 export const PIXABAY_API_ROOT = 'https://pixabay.com/api/';
+export const RESULTS_PER_PAGE = 20;
